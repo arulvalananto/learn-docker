@@ -1,0 +1,12 @@
+Steps for implementing docker in your project:
+
+1. Create "Dockerfile" file in your project directory.
+2. Write command in the dockerfile depends on your project specifications.
+3. After all, build docker with the following command:
+    docker build -t [project-name] .     ----> (ignore [])
+4. After the built completed, check your project image by the following command:
+    docker image ls    --> it will list of all your docker Images
+5. To run your docker image, use the following command:
+    docker run [project-name]    ---> use same name when you were created the docker image.
+
+   
