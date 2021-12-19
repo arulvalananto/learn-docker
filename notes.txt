@@ -1,0 +1,171 @@
+Steps for implementing docker in your project:
+        
+    1. Create "Dockerfile" file in your project directory.
+    2. Write command in the dockerfile depends on your project specifications.
+    3. After all, build docker with the following command:
+        "docker build -t [project-name] ."     ----> (ignore [])
+    4. After the built completed, check your project image by the following command:
+        "docker image ls"    --> it will list of all your docker Images
+    5. To run your docker image, use the following command:
+        "docker run [project-name]"    ---> use same name when you were created the docker image.
+    For Interaction:
+        "docker run -it [project-name]"
+
+
+Steps for using images from hub.docker.com: (Containers === Processes) 
+
+    1. First, choose the image that you want to work with. Here i am going to use   
+        ubuntu as an example.
+    2. After chosen image, Run the following command:
+        "docker run [image-name]"   -> (that you got from hub.docker.com)
+        if you want to interact with image. Use the following command
+        "docker run -it [image-name]"
+    3. It gives you an access to interact with image that you got. You can also use the following command do it the same thing:
+        "docker pull [image-name]"
+    4. You can check currently running process (containers) by:
+        "docker ps" 
+        (or) if you want to check already run process by:
+        "docker ps -a"
+    5. To start or stop running process. Use this:
+        "docker start/stop [container-id]" -> (please use first 3 or 4 characters of container id unless another container id has same one.)
+        with interactive mode
+        "docker start -i [container-id]" 
+    6. To exit from the process:
+        "exit"
+
+Linux Commands: [For Help, "--help"]
+
+    > - Redirection (cat hello.txt > hello1.txt) -> it'll copy hello.txt content and paste it into hello1.txt
+    grep - Search something from file. (Ex: grep -i hello  file1.txt) -> -i means case-sensitive
+    find - finding files and directories. 
+    chaining commands:
+        1. || 
+        2. && 
+        3. | (ex: ls /bin | less (or) ls /bin | cat)
+
+    To break a long into small. Use the following pattern:
+        Ex: "mkdir test;\ cd test;\ echo done"
+
+    Want to see Environment Variables, Use this:
+        "printenv"
+
+    To Select specific Environment Variable
+        "printenv [key-name]"
+
+    Add to Environment Variables:
+        export DB_USER=valan
+    To see that:
+        echo $DB_USER
+    Want to store Environment Variables permanently:
+        echo DB_USER=valan >> .bashrc   (Don't store sensitive info in Environment Variables)
+
+Managing Process: [For Help, "--help"]
+    
+    1. To See Running Processes:
+        "ps"
+    2. To Kill Running Process:
+        "kill [p-id]"
+
+Managing Users: [For Help, "--help"]
+
+    1. Add User:
+        "useradd -m Valan"     --> (--create-home)
+    2. To check added users:
+        "cat /etc/passwd"
+    3. To Switch User Mod:
+        "usermod -s /bin/bash john"
+    4. To Start Docker Ubuntu as non-root user
+        "docker exec -it -u [user-name] [container-id] bash"
+    5. Delete User:
+        "userdel [username]"
+    6. Change user group:
+        "usermod -G [group-name] [user-name]"
+    
+Managing groups: [For Help, "--help"]
+    1. Add Groups 
+        "groupadd [group-name]"
+    2. List Groups of User:
+        "groups [user-name]"
+    
+File Permissions: [For Help, "--help"]
+    1. List all files with permission:
+        "ls -l"
+    2. Change file permission:
+        "chmod u+x [file-name]    ([+] - add permission,  [-] -  remove permission)
+
+        here ==> u -> users, o -> others, g -> groups
+        (Ex: chmod og+x+w-r *.sh)
+
+REMOVING IMAGES AND CONTAINERS: [For Help, "--help"]
+    1. To remove images
+        "docker image prune"
+    2. To remove containers
+        "docker container prune"
+
+TAGGING IMAGES: [For Help, "--help"]
+    1. Tag image with number
+        "docker build -t [build-name]:[tag-name] ."  (Ex: "docker build -t react-dockerify:1 .")
+    2. remove tag
+        "docker image rm [build-name]:[tag-number]"
+        Ex: "docker image rm react-dockerify:2"
+    3. create tag after build   
+        "docker image tag [build-name]:[old-tag-number] [build-name]:[new-tag-number] 
+        (Ex: "docker image tag react-dockerify:latest react-dockerify:1")
+    4. To see all images with tag:
+        "docker images" or "docker image ls"
+    Notes: docker latest image always pointing to latest tag number. (For ref: lesson 42 mosh)
+    Ex: 
+        1. docker build -t react-dockerify:2 .
+        2. docker image tag react-dockerify:2 react-dockerify:latest
+
+SHARING IMAGES: [For Help, "--help"]
+    1. Create repository in hub.docker.com
+    2. replace the place with name of the repository
+        "docker image tag [build-with-tag-name] [repository-name-with-tag]
+        Ex:
+          "docker image tag react-dockerify:2 7397478847/react-dockerify:2"
+    3. After that step 2, login into docker. use the following command:
+        "docker login"
+    4. After successfully logged in, enter the following command:
+        "docker push 7397478847/react-dockerify:2"
+
+    5. After you changes in code in future, Follow the same commands:
+        1. docker build -t react-dockerify:3 .
+        2. docker images  --> (to check images list)
+        3. docker image tag react-dockerify:3  7397478847/react-dockerify:3
+        4. docker push 7397478847/react-dockerify:3
+
+SAVING AND LOADING IMAGES: [For Help, "--help"]
+    1. Saving Images
+        docker image save -o [zip-name].zip [build-name-with-tag-number]
+            Ex: "docker image save -o react-dockerify.zip react-dockerify:2"
+    2. Load Images
+        docker image load -i [zip-name].zip
+            Ex: "docker image load -i react-dockerify.zip"
+
+Containers: [For Help, "--help"]
+    1. To see running containers:
+        "docker ps"
+    2. To run container on detached mode:
+        "docker run -d [build-name]"
+            Ex: "docker run -d react-dockerify"
+    3. To run container on detached mode with name:
+        "docker run -d --name blue-sky [build-name]"
+            Ex: "docker run -d --name blue-sky react-dockerify"
+    4. To see logs of container:
+        "docker logs [container-id]"
+            Ex: "docker logs 605"  (it has some flag you can use that)
+    5. Publishing Port:
+        "docker run -d -p [host-port]:[container-port] --name [name] [build-name]"
+            Ex: "docker run -d -p 80:3000 --name c1 react-dockerify"
+    6. To execute a command in running container:
+        "docker exec ?[-it] [name/container-id] [command]"
+            Ex: "docker exec publish-port ls"
+            Ex: "docker exec -it publish-port sh"
+    7. To start/stop container:
+        "docker [start/stop] [name/containe-id]
+            Ex: "docker start publish-port"
+            Ex: "docker stop publish-port"
+    8. To remove container:
+        "docker container rm [name/container-id]" or "docker rm [name/container-id]"
+            Ex: "docker rm publish-port"
