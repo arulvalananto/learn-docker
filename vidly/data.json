@@ -1,0 +1,10 @@
+{
+  "name": "JSON Example",
+  "price": 129,
+  "isPublished": true,
+  "tags": ["software", "devops"],
+  "author": {
+    "first_name": "Valan",
+    "last_name": "Anto S"
+  }
+}

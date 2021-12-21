@@ -1,0 +1,10 @@
+---
+name: "Yaml Example"
+price: 149
+is_published: true
+tags:
+  - software
+  - devops
+author:
+  first_name: Valan
+  last_name: Anto S
